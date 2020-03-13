@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import UserTable from "../../components/UserTable";
 import Button from "@material-ui/core/Button";
 import DeletionDialog from "../../components/DeletionDialog";
+import UsersDialog from "../../components/UsersDialog";
 
 export default props => {
   const [openDelete, setOpenDelete] = useState(false);
@@ -42,7 +43,7 @@ export default props => {
   return (
     <Grid direction='column' alignItems='flex-end' container>
       <Grid item>
-        <Button variant='contained' color='primary'>Add record</Button>
+        <Button variant='contained' color='primary' onClick={() => setOpenEdit(true)}>Add record</Button>
       </Grid>
       <UserTable onDeleteItem={(item) => {
         setSelectedItem(item);
@@ -57,6 +58,14 @@ export default props => {
       }} onPositiveAction={() => {
         onDeleteItem(selectedItem);
       }} onClose={() => setOpenDelete(false)} open={openDelete}/>
+      <UsersDialog {...selectedItem} onNegativeAction={() => {
+        setSelectedItem(null);
+      }} onPositiveAction={() => {
+        onEditItem(selectedItem);
+      }} onClose={() => {
+        setSelectedItem(null);
+        setOpenEdit(false);
+      }} open={openEdit}/>
     </Grid>
   )
 };
