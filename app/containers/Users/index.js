@@ -14,11 +14,13 @@ export default props => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    // Fetching data from localstorage on page load
     let users = localStorage.getItem("users");
     setData(users ? JSON.parse(users) : {});
   }, []);
 
   const onDeleteItem = item => {
+    // Deletion of data
     let newData = {...data};
     delete newData[item.id];
     setData(newData);
@@ -27,11 +29,13 @@ export default props => {
 
   const onEditItem = item => {
     if(item.id) {
+      // If item has an `id`, it means we need to edit an existing asset
       let newData = {...data};
       newData[item.id] = item;
       setData(newData);
       localStorage.setItem("users", JSON.stringify(newData));
     } else {
+      // If item does not have an `id`, it means its a new asset
       let id = uuid();
       let newData = {...data, [id]: {...item, id}};
       setData(newData);
