@@ -43,10 +43,10 @@ const UserTable = props => {
               <TableCell align="right">{item.phone}</TableCell>
               <TableCell align="right">
                 <Grid direction='row' justify='flex-end' container>
-                  <IconButton variant='contained' color='primary'>
+                  <IconButton onClick={() => props.onEditItem(item)} variant='contained' color='primary'>
                     <EditIcon/>
                   </IconButton>
-                  <IconButton variant='contained' color='primary'>
+                  <IconButton onClick={() => props.onDeleteItem(item)} variant='contained' color='primary'>
                     <DeleteIcon/>
                   </IconButton>
                 </Grid>
@@ -60,7 +60,9 @@ const UserTable = props => {
 };
 
 UserTable.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.array,
+  onEditItem: PropTypes.func,
+  onDeleteItem: PropTypes.func,
 };
 
 export default UserTable;
