@@ -64,6 +64,7 @@ export default props => {
         setSelectedItem(null);
       }} onPositiveAction={() => {
         onDeleteItem(selectedItem);
+        setSelectedItem(null);
       }} onClose={() => setOpenDelete(false)} open={openDelete}/>
 
       <UsersDialog {...selectedItem} onNegativeAction={() => {
