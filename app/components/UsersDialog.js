@@ -9,9 +9,9 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 const DeletionDialog = props => {
 
   const [tab, setTab] = useState(0);
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [phone, setPhone] = useState();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   useEffect(() => {
     setName(props.name);
@@ -19,8 +19,12 @@ const DeletionDialog = props => {
     setEmail(props.email);
   }, [props.name, props.phone, props.email]);
 
+  useEffect(() => {
+    setTab(0);
+  }, [props.open]);
+
   return (
-    <Dialog BackdropProps={{style: {opacity: "0.5"}}} open={props.open} onClose={props.onClose}>
+    <Dialog open={props.open} onClose={props.onClose}>
       <DialogTitle>
         <Typography variant='subtitle1'>{props.id ? 'Edit' : 'Add'} User</Typography>
       </DialogTitle>
@@ -47,13 +51,11 @@ const DeletionDialog = props => {
       <DialogActions>
         <Button onClick={() => {
           props.onNegativeAction();
-          props.onClose();
         }} color="primary" variant='outlined'>
           Cancel
         </Button>
         <Button onClick={() => {
           props.onPositiveAction({id: props.id, name, email, phone});
-          props.onClose();
         }} color="primary" variant='contained' autoFocus>
           {props.id ? 'Update' : 'Create'}
         </Button>
@@ -74,6 +76,9 @@ DeletionDialog.propTypes = {
 };
 
 DeletionDialog.defaultProps = {
+  name: "",
+  email: "",
+  phone: "",
   onPositiveAction: () => {},
   onNegativeAction: () => {},
 };

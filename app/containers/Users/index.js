@@ -4,30 +4,18 @@ import UserTable from "../../components/UserTable";
 import Button from "@material-ui/core/Button";
 import DeletionDialog from "../../components/DeletionDialog";
 import UsersDialog from "../../components/UsersDialog";
+import uuid from 'react-uuid';
 
 export default props => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const [data, setData] = useState([
-    {
-      id: "1",
-      name: 'Adil Sarwar',
-      email: "adil@sarwar.com",
-      phone: "+1571315646",
-    },
-    {
-      id: "2",
-      name: 'John Doe',
-      email: "john@doe.com",
-      phone: "+6231413237",
-    },
-  ]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     let users = localStorage.getItem("users");
-    setData(users ? JSON.parse(users) : []);
+    setData(users ? JSON.parse(users) : {});
   }, []);
 
   const onDeleteItem = item => {
@@ -37,7 +25,17 @@ export default props => {
   };
 
   const onEditItem = item => {
-
+    if(item.id) {
+      let newData = {...data};
+      newData[item.id] = item;
+      setData(newData);
+      localStorage.setItem("users", JSON.stringify(newData));
+    } else {
+      let id = uuid();
+      let newData = {...data, [id]: {id, ...item}};
+      setData(newData);
+      localStorage.setItem("users", JSON.stringify(newData));
+    }
   };
 
   return (
@@ -51,7 +49,7 @@ export default props => {
       }} onEditItem={(item) => {
         setSelectedItem(item);
         setOpenEdit(true);
-      }} data={data}/>
+      }} data={Object.values(data)}/>
       <DeletionDialog onNegativeAction={() => {
         setOpenDelete(false);
         setSelectedItem(null);
@@ -60,8 +58,9 @@ export default props => {
       }} onClose={() => setOpenDelete(false)} open={openDelete}/>
       <UsersDialog {...selectedItem} onNegativeAction={() => {
         setSelectedItem(null);
-      }} onPositiveAction={() => {
-        onEditItem(selectedItem);
+      }} onPositiveAction={(user) => {
+        onEditItem(user);
+        setOpenEdit(false);
       }} onClose={() => {
         setSelectedItem(null);
         setOpenEdit(false);

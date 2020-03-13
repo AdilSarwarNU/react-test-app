@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 
 const DeletionDialog = props => {
   return (
-    <Dialog BackdropProps={{style: {opacity: "0.5"}}} open={props.open} onClose={props.onClose}>
+    <Dialog open={props.open} onClose={props.onClose}>
       <DialogTitle>
         <Typography variant='subtitle1'>{props.title}</Typography>
       </DialogTitle>
