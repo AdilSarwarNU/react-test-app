@@ -16,13 +16,13 @@ const DeletionDialog = props => {
         <Button onClick={() => {
           props.onNegativeAction();
           props.onClose();
-        }} color="primary">
+        }} color="primary" variant='outlined'>
           Cancel
         </Button>
         <Button onClick={() => {
           props.onPositiveAction();
           props.onClose();
-        }} color="primary" autoFocus>
+        }} color="primary" variant='contained' autoFocus>
           Delete
         </Button>
       </DialogActions>

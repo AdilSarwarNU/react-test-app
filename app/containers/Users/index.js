@@ -19,7 +19,8 @@ export default props => {
   }, []);
 
   const onDeleteItem = item => {
-    let newData = data.filter(value => value.id !== item.id);
+    let newData = {...data};
+    delete newData[item.id];
     setData(newData);
     localStorage.setItem("users", JSON.stringify(newData));
   };
@@ -32,7 +33,7 @@ export default props => {
       localStorage.setItem("users", JSON.stringify(newData));
     } else {
       let id = uuid();
-      let newData = {...data, [id]: {id, ...item}};
+      let newData = {...data, [id]: {...item, id}};
       setData(newData);
       localStorage.setItem("users", JSON.stringify(newData));
     }
@@ -43,19 +44,22 @@ export default props => {
       <Grid item>
         <Button variant='contained' color='primary' onClick={() => setOpenEdit(true)}>Add record</Button>
       </Grid>
+
       <UserTable onDeleteItem={(item) => {
         setSelectedItem(item);
         setOpenDelete(true);
       }} onEditItem={(item) => {
         setSelectedItem(item);
         setOpenEdit(true);
-      }} data={Object.values(data)}/>
+      }} data={Object.values(data).reverse()}/>
+
       <DeletionDialog onNegativeAction={() => {
         setOpenDelete(false);
         setSelectedItem(null);
       }} onPositiveAction={() => {
         onDeleteItem(selectedItem);
       }} onClose={() => setOpenDelete(false)} open={openDelete}/>
+
       <UsersDialog {...selectedItem} onNegativeAction={() => {
         setSelectedItem(null);
       }} onPositiveAction={(user) => {
