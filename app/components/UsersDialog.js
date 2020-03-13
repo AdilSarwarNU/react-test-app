@@ -23,6 +23,12 @@ const DeletionDialog = props => {
     setTab(0);
   }, [props.open]);
 
+  const clear = () => {
+    setName("");
+    setPhone("");
+    setEmail("");
+  };
+
   return (
     <Dialog open={props.open} onClose={props.onClose}>
       <DialogTitle>
@@ -43,8 +49,8 @@ const DeletionDialog = props => {
           <br/>
           {
             tab === 0 ? <OutlinedInput fullWidth={true} value={name} onChange={event => setName(event.target.value)} placeholder='Name'/> :
-              tab === 1 ? <OutlinedInput fullWidth={true} value={email} onChange={event => setEmail(event.target.value)} placeholder='Email'/> :
-                <OutlinedInput fullWidth={true} value={phone} onChange={event => setPhone(event.target.value)} placeholder='Phone'/>
+              tab === 1 ? <OutlinedInput fullWidth={true} type='email' autoComplete='email' value={email} onChange={event => setEmail(event.target.value)} placeholder='Email'/> :
+                <OutlinedInput fullWidth={true} value={phone} type="tel" onChange={event => setPhone(event.target.value)} placeholder='Phone'/>
           }
         </Grid>
       </DialogContent>
@@ -56,6 +62,7 @@ const DeletionDialog = props => {
         </Button>
         <Button onClick={() => {
           props.onPositiveAction({id: props.id, name, email, phone});
+          clear();
         }} color="primary" variant='contained' autoFocus>
           {props.id ? 'Update' : 'Create'}
         </Button>

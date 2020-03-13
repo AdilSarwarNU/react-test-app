@@ -40,18 +40,20 @@ export default props => {
   };
 
   return (
-    <Grid direction='column' alignItems='flex-end' container>
-      <Grid item>
-        <Button variant='contained' color='primary' onClick={() => setOpenEdit(true)}>Add record</Button>
+    <Grid direction='row' alignItems='center' justify='center' container>
+      <Grid xs={8} item>
+        <Grid style={{ marginTop: '10vh' }} direction='column' alignItems='flex-end' justify='center' container>
+          <Button variant='contained' color='primary' alignItems='center' justify='center' onClick={() => setOpenEdit(true)}>Add record</Button>
+          <br/>
+          <UserTable onDeleteItem={(item) => {
+            setSelectedItem(item);
+            setOpenDelete(true);
+          }} onEditItem={(item) => {
+            setSelectedItem(item);
+            setOpenEdit(true);
+          }} data={Object.values(data).reverse()}/>
+        </Grid>
       </Grid>
-
-      <UserTable onDeleteItem={(item) => {
-        setSelectedItem(item);
-        setOpenDelete(true);
-      }} onEditItem={(item) => {
-        setSelectedItem(item);
-        setOpenEdit(true);
-      }} data={Object.values(data).reverse()}/>
 
       <DeletionDialog onNegativeAction={() => {
         setOpenDelete(false);
@@ -63,6 +65,7 @@ export default props => {
       <UsersDialog {...selectedItem} onNegativeAction={() => {
         setSelectedItem(null);
       }} onPositiveAction={(user) => {
+        setSelectedItem(null);
         onEditItem(user);
         setOpenEdit(false);
       }} onClose={() => {
